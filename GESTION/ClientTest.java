@@ -8,7 +8,7 @@ public class ClientTest {
             GestionInterface gestion = (GestionInterface) registry.lookup("ServeurGestion");
 
             gestion.envoyerAlerte("climatiseur", "Consommation excessive détectée !");
-            gestion.controlerAppareil("chauffage", false); 
+            gestion.controlerAppareil("chauffage", false); // Éteindre
 
         } catch (Exception e) {
             e.printStackTrace();
