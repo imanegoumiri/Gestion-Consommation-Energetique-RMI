@@ -8,7 +8,11 @@ public class ClientTest {
             GestionInterface gestion = (GestionInterface) registry.lookup("ServeurGestion");
 
             gestion.envoyerAlerte("climatiseur", "Consommation excessive détectée !");
+<<<<<<< HEAD
             gestion.controlerAppareil("chauffage", false); // Éteindre
+=======
+            gestion.controlerAppareil("chauffage", false); 
+>>>>>>> ce77118 (ajout serveur de gestion - LAMAHAD Maryam)
 
         } catch (Exception e) {
             e.printStackTrace();
