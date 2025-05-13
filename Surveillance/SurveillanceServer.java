@@ -1,14 +1,18 @@
-
+package Surveillance;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.rmi.Naming;
 
 public class SurveillanceServer {
     public static void main(String[] args) {
         try {
-            SurveillanceService service = new SurveillanceServiceImpl();
-            Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("SurveillanceService", service);
-            System.out.println("Surveillance Service prêt...");
+            LocateRegistry.createRegistry(1100); // port différent si besoin
+            SurveillanceServiceImpl surveillance = new SurveillanceServiceImpl();
+            Naming.rebind("rmi://localhost/ServiceSurveillance", surveillance);
+            System.out.println(" Serveur de surveillance prêt.");
+
+            // Appel immédiat pour lancer la surveillance
+            surveillance.envoyeDonnes();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

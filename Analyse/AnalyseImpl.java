@@ -13,18 +13,32 @@ public class AnalyseImpl extends UnicastRemoteObject implements IAnalyse {
         conn = DBManager.getConnection(); // Tu as déjà cette classe
     }
 
-    @Override
     public void stockerDonnee(String appareil, double consommation, String timestamp) throws RemoteException {
-    // Méthode requise par l'interface mais inutile ici (on lit depuis la base importée)
-        System.out.println("Reçu : " + appareil + " => " + consommation + " kW à " + timestamp);
+    try {
+        // Préparer la requête d'insertion
+        PreparedStatement ps = conn.prepareStatement(
+            "INSERT INTO consommations (appareil, consommation, timestamp) VALUES (?, ?, ?)"
+        );
+        ps.setString(1, appareil);
+        ps.setDouble(2, consommation);
+        ps.setString(3, timestamp); // format : "16/12/2006 17:24:00"
+        
+        ps.executeUpdate();
+
+        System.out.println("Donnée stockée : " + consommation + " kW à " + timestamp);
+
+    } catch (SQLException e) {
+        System.err.println("Erreur lors du stockage : " + e.getMessage());
     }
+}
+
 
     // 1. Moyenne générale de Global_active_power
     public double calculerMoyenne(String appareil) throws RemoteException {
         double moyenne = 0;
         try {
             PreparedStatement ps = conn.prepareStatement(
-                "SELECT AVG(Global_active_power) FROM consommation"
+                "SELECT AVG(consommation) FROM consommations"
             );
             ResultSet rs = ps.executeQuery();
             if (rs.next()) moyenne = rs.getDouble(1);
@@ -39,14 +53,13 @@ public class AnalyseImpl extends UnicastRemoteObject implements IAnalyse {
         List<String> alertes = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(
-                "SELECT Date, Time, Global_active_power FROM consommation WHERE Global_active_power > 5"
+                "SELECT consommation, timestamp FROM consommations WHERE consommation > 5"
             );
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String date = rs.getString("Date");
-                String time = rs.getString("Time");
-                double conso = rs.getDouble("Global_active_power");
-                alertes.add("Alerte " + conso + " kW le " + date + " à " + time);
+                double conso = rs.getDouble("consommation");
+                String timestamp = rs.getString("timestamp");
+                alertes.add("Alerte " + conso + " kW à " + timestamp);
             }
         } catch (SQLException e) {
             e.printStackTrace();
