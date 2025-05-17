@@ -66,4 +66,22 @@ public class AnalyseImpl extends UnicastRemoteObject implements IAnalyse {
         }
         return alertes;
     }
+    // 3. Historique
+    @Override
+    public List<ConsoRecord> getHistoriqueComplet(String appareil) throws RemoteException {
+        List<ConsoRecord> historique = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                "SELECT timestamp, consommation FROM consommations WHERE appareil = ? ORDER BY timestamp"
+            );
+            ps.setString(1, appareil);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                historique.add(new ConsoRecord(rs.getString("timestamp"), rs.getDouble("consommation")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return historique;
+    }
 }
