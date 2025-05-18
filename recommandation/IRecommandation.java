@@ -2,16 +2,8 @@ package Recommandation;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface IRecommandation extends Remote {
-    String genererConseil(String nomAppareil) throws RemoteException;
+    List<String> genererConseil(String appareil) throws RemoteException;
 }
-
-
-// import java.rmi.Remote;
-// import java.rmi.RemoteException;
-
-// public interface IRecommandation extends Remote {
-//     void verifierSeuil(String appareil, double consommation) throws RemoteException;
-//     void envoyerAlerte(String message) throws RemoteException;
-// }
