@@ -1,3 +1,5 @@
+package Gestion;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -7,12 +9,12 @@ public class ClientTest {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             GestionInterface gestion = (GestionInterface) registry.lookup("ServeurGestion");
 
+            // Envoi d'une alerte
             gestion.envoyerAlerte("climatiseur", "Consommation excessive détectée !");
-<<<<<<< HEAD
-            gestion.controlerAppareil("chauffage", false); // Éteindre
-=======
-            gestion.controlerAppareil("chauffage", false); 
->>>>>>> ce77118 (ajout serveur de gestion - LAMAHAD Maryam)
+
+            // Contrôle d'appareils
+            gestion.controlerAppareil("chauffage", true);   // allumer
+            gestion.controlerAppareil("lave-linge", false); // éteindre
 
         } catch (Exception e) {
             e.printStackTrace();
