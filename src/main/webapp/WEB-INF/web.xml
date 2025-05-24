@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://jakarta.ee/xml/ns/jakartaee
+                             http://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <display-name>GestionConsommationApp</display-name>
+
+    <!--  Déclaration de la servlet -->
+    <servlet>
+        <servlet-name>RecommandationServlet</servlet-name>
+        <servlet-class>com.example.servlets.RecommandationServlet</servlet-class>
+    </servlet>
+
+    <!--  Mapping de l'URL vers la servlet -->
+    <servlet-mapping>
+        <servlet-name>RecommandationServlet</servlet-name>
+        <url-pattern>/recommandations</url-pattern>
+    </servlet-mapping>
+
+</web-app>
