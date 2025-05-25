@@ -1,6 +1,8 @@
 com\example\Gestion\ClientTest.class
 com\example\Recommandation\ClientRecommandation.class
+com\example\rmi\AnalyseProxy.class
 com\example\rmi\RecommandationProxy.class
+com\example\servlets\DashboardServlet.class
 com\example\Analyse\AnalyseServer.class
 com\example\Recommandation\RecommandationImpl.class
 com\example\servlets\RecommandationServlet.class
