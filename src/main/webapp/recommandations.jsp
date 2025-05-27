@@ -16,7 +16,7 @@
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="Dashboard.jsp" class="nav-link">🏠 Tableau de bord</a>
+                <a href="dashboard" class="nav-link">🏠 Tableau de bord</a>
             </li>
             <li class="nav-item">
                 <a href="alertes.jsp" class="nav-link">🚨 Alertes</a>
