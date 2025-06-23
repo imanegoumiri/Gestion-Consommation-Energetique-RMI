@@ -7,26 +7,30 @@ import java.util.List;
 
 public class RecommandationProxy {
 
-    private IRecommandation recommandationStub;
+    private static IRecommandation recommandationStub;
 
-    public RecommandationProxy() {
+    static {
         try {
-            // Connexion au registre RMI du serveur de recommandation (port 3002)
             Registry registry = LocateRegistry.getRegistry("localhost", 3002);
             recommandationStub = (IRecommandation) registry.lookup("ServiceRecommandation");
             System.out.println("🔗 Proxy connecté au ServiceRecommandation !");
         } catch (Exception e) {
             System.err.println("❌ Erreur de connexion au ServiceRecommandation : " + e.getMessage());
+            recommandationStub = null;
         }
     }
 
-    public List<String> getConseils(String appareil) {
+    public static List<String> getConseils(String appareil) {
+        if (recommandationStub == null) {
+            System.err.println("❌ Service Recommandation indisponible");
+            return List.of("Service indisponible pour le moment.");
+        }
+
         try {
             return recommandationStub.genererConseil(appareil);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            System.err.println("❌ Erreur lors de la récupération des conseils : " + e.getMessage());
+            return List.of("Erreur lors de l'accès aux conseils.");
         }
     }
 }
-

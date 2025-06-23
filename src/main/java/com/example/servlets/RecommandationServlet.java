@@ -12,12 +12,18 @@ import com.example.rmi.RecommandationProxy;
 
 public class RecommandationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String appareil = request.getParameter("appareil");
+        String appareil = "maison"; // 💡 on fixe l'appareil à "maison"
         RecommandationProxy proxy = new RecommandationProxy();
         List<String> conseils = proxy.getConseils(appareil);
 
         request.setAttribute("conseils", conseils);
-        request.getRequestDispatcher("recommandations.jsp").forward(request, response);
+        request.setAttribute("pageTitle", "Conseils énergétiques");
+        request.setAttribute("contentPage", "recommandations.jsp"); // 👉 inclusion dynamique dans template.jsp
+        request.getRequestDispatcher("template.jsp").forward(request, response);
+    }
+
+    // Pour supporter aussi les requêtes POST si nécessaire
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 }
-
