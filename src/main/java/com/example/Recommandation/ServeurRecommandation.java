@@ -1,16 +1,16 @@
 package com.example.Recommandation;
 
+import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+
 
 public class ServeurRecommandation {
-    public static void main(String[] args) {
+      public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.createRegistry(3002); // Crée un registre RMI sur 3002
-            IRecommandation reco = new RecommandationImpl();
-            registry.rebind("ServiceRecommandation", reco); // Enregistre dans ce registre
-
-            System.out.println("✅ Serveur de recommandation démarré sur le port 3002 !");
+            LocateRegistry.createRegistry(3002);
+            IRecommandation obj = new RecommandationImpl();
+            Naming.rebind("rmi://localhost:3002/ServiceRecommandation", obj);
+            System.out.println("✅ Serveur de recommandation démarré !");
         } catch (Exception e) {
             System.err.println("❌ Erreur de démarrage du serveur de recommandation : " + e.getMessage());
         }

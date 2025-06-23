@@ -5,8 +5,6 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SurveillanceServiceImpl extends UnicastRemoteObject implements SurveillanceService {
 
@@ -16,19 +14,15 @@ public class SurveillanceServiceImpl extends UnicastRemoteObject implements Surv
 
     public void envoyeDonnes() throws RemoteException {
         try {
-            // Connexion RMI au serveur d'analyse
+            // Connexion au serveur d'analyse via RMI
             IAnalyse analyse = (IAnalyse) Naming.lookup("rmi://localhost/ServiceAnalyse");
 
-            // Chargement fichier CSV depuis resources
+            // Lecture du fichier CSV depuis resources via ClassLoader
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("dbfile/consommation.csv");
             if (inputStream == null) {
-                System.out.println("❌ Fichier consommation.csv introuvable !");
+                System.out.println("Fichier consommation.csv introuvable dans les ressources !");
                 return;
             }
-
-            // Formats de date
-            SimpleDateFormat csvFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
@@ -41,23 +35,19 @@ public class SurveillanceServiceImpl extends UnicastRemoteObject implements Surv
                     }
 
                     String[] parts = line.split(";");
-                    String date = parts[0]; // ex: 01/06/2024
-                    String time = parts[1]; // ex: 00:00:00
-                    String val = parts[2];  // Global_active_power
+                    String date = parts[0]; // Date
+                    String time = parts[1]; // Time
 
-                    if (val.equals("?") || val.isEmpty()) continue;
+                    String val = parts[2]; // Global_active_power
 
-                    double power = Double.parseDouble(val.replace(",", "."));
+                    if (val.equals("?") || val.isEmpty()) continue; // données manquantes
 
-                    // Reformatage timestamp au format ISO pour MySQL
-                    String rawTimestamp = date + " " + time;
-                    Date parsedDate = csvFormat.parse(rawTimestamp);
-                    String timestamp = sqlFormat.format(parsedDate);
+                    double power = Double.parseDouble(val.replace(",", ".")); // remplacement de virgule
 
-                    analyse.stockerDonnee("Maison", power, timestamp);
-                    System.out.println("✅ Envoyé : " + power + " kW à " + timestamp);
+                    analyse.stockerDonnee("Maison", power, date + " " + time); // appel RMI
+                    System.out.println("Envoyé : " + power + " kW à " + date + " " + time);
 
-                    Thread.sleep(1000); // Simulation d'envoi
+                    Thread.sleep(1000); // simulation d’un envoi chaque seconde
                 }
             }
 

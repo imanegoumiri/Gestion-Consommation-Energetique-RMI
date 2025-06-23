@@ -1,15 +1,16 @@
 package com.example.Gestion;
-
 import java.rmi.registry.LocateRegistry;
-import java.rmi.Naming;
+import java.rmi.registry.Registry;
 
 public class ServeurGestion {
     public static void main(String[] args) {
         try {
-            LocateRegistry.createRegistry(1098); // port dédié
-            GestionImpl service = new GestionImpl();
-            Naming.rebind("rmi://localhost:1098/ServiceGestion", service);
-            System.out.println("✅ Serveur de gestion lancé !");
+            GestionInterface gestion = new GestionImpl();
+
+            Registry registry = LocateRegistry.getRegistry(); // NE PAS créer, juste récupérer
+registry.rebind("ServeurGestion", gestion);
+
+            System.out.println("Serveur de Gestion prêt et en attente...");
         } catch (Exception e) {
             e.printStackTrace();
         }

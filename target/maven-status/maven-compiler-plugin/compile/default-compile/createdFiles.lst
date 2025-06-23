@@ -7,12 +7,11 @@ com\example\Analyse\AnalyseServer.class
 com\example\Recommandation\RecommandationImpl.class
 com\example\servlets\RecommandationServlet.class
 com\example\Surveillance\SurveillanceServiceImpl.class
-servlets\GestionServlet.class
+com\example\HelloServlet.class
 com\example\Gestion\GestionInterface.class
 com\example\DataBase\DBManager.class
 com\example\Surveillance\SurveillanceService.class
 com\example\Recommandation\IRecommandation.class
-rmi\GestionProxy.class
 com\example\Gestion\GestionImpl.class
 com\example\Analyse\ConsoRecord.class
 com\example\Analyse\AnalyseImpl.class
