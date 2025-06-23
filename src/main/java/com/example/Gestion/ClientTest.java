@@ -1,5 +1,4 @@
-package client;
-
+package com.example.Gestion;
 import com.example.Gestion.GestionInterface;
 import java.rmi.Naming;
 

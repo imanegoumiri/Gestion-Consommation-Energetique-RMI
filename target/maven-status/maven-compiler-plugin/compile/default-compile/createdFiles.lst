@@ -1,3 +1,4 @@
+com\example\Gestion\ClientTest.class
 com\example\Recommandation\ClientRecommandation.class
 com\example\rmi\AnalyseProxy.class
 com\example\rmi\RecommandationProxy.class
@@ -16,7 +17,6 @@ com\example\Gestion\GestionImpl.class
 com\example\Analyse\ConsoRecord.class
 com\example\Analyse\AnalyseImpl.class
 com\example\Surveillance\SurveillanceServer.class
-client\ClientTest.class
 com\example\Gestion\ServeurGestion.class
 com\example\Recommandation\ServeurRecommandation.class
 com\example\Analyse\IAnalyse.class
