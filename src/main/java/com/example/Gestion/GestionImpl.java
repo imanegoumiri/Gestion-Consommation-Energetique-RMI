@@ -3,10 +3,12 @@ package com.example.Gestion;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import com.example.Analyse.IAnalyse; // importe l'interface distante
+import com.example.Analyse.IAnalyse;
 import java.util.List;
 
 public class GestionImpl extends UnicastRemoteObject implements GestionInterface {
+
+    private boolean maisonAllumee = true;
 
     public GestionImpl() throws RemoteException {
         super();
@@ -17,15 +19,13 @@ public class GestionImpl extends UnicastRemoteObject implements GestionInterface
         System.out.println("🔔 ALERTE pour " + appareilId + " : " + message);
 
         try {
-            // Appel distant vers le serveur d’analyse
-            IAnalyse analyse = (IAnalyse) Naming.lookup("rmi://localhost/ServiceAnalyse");
-
+            IAnalyse analyse = (IAnalyse) Naming.lookup("rmi://localhost:1099/ServiceAnalyse");
             List<String> alertes = analyse.detecterAnomalies(appareilId);
-            System.out.println("📡 Alertes détectées :");
-            alertes.forEach(System.out::println);
 
+            System.out.println("📡 Alertes détectées pour " + appareilId + ":");
+            alertes.forEach(System.out::println);
         } catch (Exception e) {
-            System.err.println("Erreur lors de la communication avec Analyse : " + e.getMessage());
+            System.err.println("❌ Erreur communication avec Analyse : " + e.getMessage());
         }
     }
 
@@ -33,5 +33,11 @@ public class GestionImpl extends UnicastRemoteObject implements GestionInterface
     public void controlerAppareil(String appareilId, boolean allumer) throws RemoteException {
         String etat = allumer ? "✅ allumé" : "⛔ éteint";
         System.out.println("🔧 Commande envoyée à " + appareilId + " : " + etat);
+        maisonAllumee = allumer;
+    }
+
+    @Override
+    public boolean getEtatMaison() throws RemoteException {
+        return maisonAllumee;
     }
 }

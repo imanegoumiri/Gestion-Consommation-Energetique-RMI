@@ -1,4 +1,3 @@
-com\example\Gestion\ClientTest.class
 com\example\Recommandation\ClientRecommandation.class
 com\example\rmi\AnalyseProxy.class
 com\example\rmi\RecommandationProxy.class
@@ -7,15 +6,17 @@ com\example\Analyse\AnalyseServer.class
 com\example\Recommandation\RecommandationImpl.class
 com\example\servlets\RecommandationServlet.class
 com\example\Surveillance\SurveillanceServiceImpl.class
-com\example\HelloServlet.class
 com\example\Gestion\GestionInterface.class
 com\example\DataBase\DBManager.class
 com\example\Surveillance\SurveillanceService.class
 com\example\Recommandation\IRecommandation.class
+com\example\rmi\GestionProxy.class
 com\example\Gestion\GestionImpl.class
+com\example\servlets\AlertesServlet.class
 com\example\Analyse\ConsoRecord.class
 com\example\Analyse\AnalyseImpl.class
 com\example\Surveillance\SurveillanceServer.class
+client\ClientTest.class
 com\example\Gestion\ServeurGestion.class
 com\example\Recommandation\ServeurRecommandation.class
 com\example\Analyse\IAnalyse.class

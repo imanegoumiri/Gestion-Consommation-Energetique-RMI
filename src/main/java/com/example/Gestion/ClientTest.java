@@ -1,20 +1,16 @@
-package com.example.Gestion;
+package client;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import com.example.Gestion.GestionInterface;
+import java.rmi.Naming;
 
 public class ClientTest {
     public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            GestionInterface gestion = (GestionInterface) registry.lookup("ServeurGestion");
+            GestionInterface gestion = (GestionInterface) Naming.lookup("rmi://localhost:1098/ServiceGestion");
 
-            // Envoi d'une alerte
-            gestion.envoyerAlerte("climatiseur", "Consommation excessive détectée !");
-
-            // Contrôle d'appareils
-            gestion.controlerAppareil("chauffage", true);   // allumer
-            gestion.controlerAppareil("lave-linge", false); // éteindre
+            gestion.envoyerAlerte("Maison", "Consommation dépassée !");
+            gestion.controlerAppareil("Maison", false);
+            System.out.println("État actuel : " + gestion.getEtatMaison());
 
         } catch (Exception e) {
             e.printStackTrace();
